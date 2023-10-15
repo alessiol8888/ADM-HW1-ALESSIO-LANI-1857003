@@ -443,5 +443,528 @@ for item, price in order.items():
 
 # DATE AND TIME 
 
-#
-  
+#Calendar Module
+
+import datetime
+import calendar
+m, d, y = map(int, input().split())
+input_date = datetime.date(y, m, d)
+print(calendar.day_name[input_date.weekday()].upper())
+
+#Time Delta
+
+import math
+import os
+import random
+import re
+import sys
+
+from datetime import datetime
+def time_delta(t1, t2):
+    time_format = '%a %d %b %Y %H:%M:%S %z'
+    t1 = datetime.strptime(t1, time_format)
+    t2 = datetime.strptime(t2, time_format)
+    return str(int(abs((t1-t2).total_seconds()))) 
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    t = int(input())
+
+    for t_itr in range(t):
+        t1 = input()
+
+        t2 = input()
+
+        delta = time_delta(t1, t2)
+
+        fptr.write(delta + '\n')
+
+    fptr.close()
+
+
+#EXCEPTIONS
+
+#Exceptions
+
+n=int(input())
+ins=[]
+for i in range(n):
+    ins.append(input().split())
+for i in range(n):
+    try:
+        print(int(ins[i][0])//int(ins[i][1]))
+    except ZeroDivisionError as e:
+        print ("Error Code:",e)
+    except ValueError as e:
+        print ("Error Code:",e)
+
+# BUILT-INS
+
+#Zipped!
+
+numstud,numsubject=map(int,input().split())
+lis=list()
+for x in range(numsubject):
+    num=map(float,input().split())
+    lis.append(num)
+for i in zip(*lis):
+    print(sum(i)/len(i))
+
+#ginortS
+
+print(*sorted(input(), key=lambda c: (c.isdigit() - c.islower(), c in '02468', c)), sep='')
+
+# PYTHON FUNCTIONALS
+
+#Map and Lambda Function
+
+cube = lambda x: x**3
+
+def fibonacci(n):
+    lis=[0,1]
+    if n==0:
+        return []
+    if n==1:
+        return [0]
+    if n==2:
+        return lis
+    else:
+        for x in range(2,n):
+            lis.append(lis[x-1]+lis[x-2])
+        
+    return lis
+
+# REGEX AND PARSING CHALLENGES
+
+#Detect Floating Point Number
+
+from re import match, compile
+pattern = compile('^[-+]?[0-9]*\.[0-9]+$')
+for _ in range(int(input())):
+    print(bool(pattern.match(input())))
+
+#Re.split()
+
+regex_pattern = r"[.,]+"
+
+import re
+print("\n".join(re.split(regex_pattern, input())))
+
+#Group(), Groups() & Groupdict()
+
+import re
+m = re.search(r'([a-zA-Z0-9])\1', input().strip())
+print(m.group(1) if m else -1)
+
+#Re.findall() & Re.finditer()
+
+import re
+vocali = 'aeiou'
+consonanti = 'qwrtypsdfghjklzxcvbnm'
+match = re.findall(r'(?<=[' + consonanti + '])([' + vocali + ']{2,})(?=[' + consonanti + '])', input(), flags=re.I)
+print('\n'.join(match or ['-1']))
+
+#Re.start() & Re.end()
+
+import re
+s = input()
+ss = input()
+pattern = re.compile(ss)
+match = pattern.search(s)
+if not match: print('(-1, -1)')
+while match:
+    print('({0}, {1})'.format(match.start(), match.end() - 1))
+    match = pattern.search(s, match.start() + 1)
+
+#Validating Roman Numerals
+
+regex_pattern = r'M{0,3}(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[VX]|V?I{0,3})$'# Do not delete 'r'.
+
+import re
+print(str(bool(re.match(regex_pattern, input()))))
+
+#Validating phone numbers
+
+import re
+[print('YES' if re.match(r'[789]\d{9}$', input()) else 'NO') for _ in range(int(input()))]
+
+#Validating and Parsing Email Addresses
+
+import re
+pattern = r'^<[A-Za-z](\w|-|\.|_)+@[A-Za-z]+\.[A-Za-z]{1,3}>$'
+for _ in range(int(input())):
+    nome, email = input().split(' ')
+    if re.match(pattern, email):
+        print(nome, email)
+
+#Hex Color Code
+
+import re
+for _ in range(int(input())):
+    matches = re.findall(r':?.(#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3})', input())
+    if matches:
+        print(*matches, sep='\n')
+
+#Validating UID
+
+
+import re
+for _ in range(int(input())):
+    s = ''.join(sorted(input()))
+    try:
+        assert re.search(r'[A-Z]{2}', s)
+        assert re.search(r'\d\d\d', s)
+        assert not re.search(r'[^a-zA-Z0-9]', s)
+        assert not re.search(r'(.)\1', s)
+        assert len(s) == 10
+    except:
+        print('Invalid')
+    else:
+        print('Valid')
+
+# CLOSURES AND DECORATIONS
+
+#Standardize Mobile Number Using Decorators
+
+def wrapper(f):
+    def fun(l):
+        f(['+91 ' + x[-10:-5] + ' ' + x[-5:] for x in l])
+    return fun
+
+@wrapper
+def sort_phone(l):
+    print(*sorted(l), sep='\n')
+
+if __name__ == '__main__':
+    l = [input() for _ in range(int(input()))]
+    sort_phone(l) 
+
+#Decorators 2 - Name Directory
+
+import operator
+
+def person_lister(f):
+    def inner(people):
+        return [f(a) for a in sorted(people, key = lambda x: (int(x[2])))]
+    return inner
+
+@person_lister
+def name_format(person):
+    return ("Mr. " if person[3] == "M" else "Ms. ") + person[0] + " " + person[1]
+
+if __name__ == '__main__':
+    people = [input().split() for i in range(int(input()))]
+    print(*name_format(people), sep='\n')
+
+
+#NUMPY
+
+ #Arrays
+
+import numpy
+
+def arrays(arr):
+    a=numpy.array(arr,float)
+    return (a[::-1])
+
+arr = input().strip().split(' ')
+result = arrays(arr)
+print(result)
+
+#Shape and Reshape
+
+
+import numpy
+l=list(map(int,input().split()))
+t=numpy.array(l)
+print(numpy.reshape(t,(3,3)))
+
+#Transpose and Flatten
+
+import numpy
+n,m=map(int,input().split())
+lis=[]
+for x in range(n):
+    lis.append(list(map(int,input().split())))
+arr=numpy.array(lis)
+print(arr.transpose())
+print(arr.flatten())
+
+#CONCATENATE
+
+import numpy
+n,m,p=map(int,input().split())
+l1=[]
+l2=[]
+for x in range(n):
+    l1.append(list(map(int,input().split())))
+for x in range(m):
+    l2.append(list(map(int,input().split())))
+arr1=numpy.array(l1)
+arr2=numpy.array(l2)
+print(numpy.concatenate((arr1, arr2), axis = 0)) 
+
+#ZEROS AND ONES
+
+import numpy as np
+shape=tuple(map(int,input().split()))
+print(np.zeros(shape,int))
+print(np.ones(shape,int))
+
+#EYE AND IDENTITY
+
+import numpy
+numpy.set_printoptions(legacy='1.13')
+n,m=map(int,input().split())
+print(numpy.eye(n,m))
+
+#Array Mathematcis
+
+import numpy
+n,m=map(int,input().split())
+l1=[]
+l2=[]
+for x in range(n):
+    l1.append(list(map(int,input().split())))
+for x in range(n):
+    l2.append(list(map(int,input().split())))
+arr1=numpy.array(l1)
+arr2=numpy.array(l2)
+print(arr1+arr2)
+print(arr1-arr2)
+print(arr1*arr2)
+print(arr1//arr2)
+print(arr1%arr2)
+print(arr1**arr2)
+
+# Floor, Ceil and Rint
+
+import numpy
+numpy.set_printoptions(legacy='1.13')
+a=numpy.array(list(map(float,input().split())))
+print(numpy.floor(a),numpy.ceil(a),numpy.rint(a),sep='\n')
+
+# Sum and Prod 
+
+import numpy
+n,m=map(int,input().split())
+l=[]
+for x in range(n):
+    l.append(list(map(int,input().split())))
+a=numpy.array(l)
+sum0=numpy.sum(a,axis=0)
+print(numpy.prod(sum0))
+
+# Min and Max
+
+import numpy
+n,m=map(int,input().split())
+l=[]
+for _ in range(n):
+    l.append(list(map(int,input().split())))
+a=numpy.array(l)
+print(numpy.max(numpy.min(a,axis=1)))
+
+#Mean, Var, and Std
+
+import numpy
+n,m=map(int,input().split())
+l=[]
+for x in range(n):
+    l.append(list(map(int,input().split())))
+a=numpy.array(l)
+print(numpy.mean(a,axis=1),numpy.var(a,axis=0),round(numpy.std(a),11),sep='\n')
+
+#Dot and Cross
+
+import numpy
+n=int(input())
+l1=[]
+l2=[]
+for x in range(n):
+    l1.append(list(map(int,input().split())))
+a1=numpy.array(l1)
+for x in range(n):
+    l2.append(list(map(int,input().split())))
+a2=numpy.array(l2)
+print(numpy.dot(a1,a2))
+
+# Inner and Outer
+
+import numpy
+a=numpy.array(list(map(int,input().split())))
+b=numpy.array(list(map(int,input().split())))
+print(numpy.inner(a,b),numpy.outer(a,b),sep='\n')
+
+# Polynomials
+import numpy
+l=list(map(float,input().split()))
+x=float(input())
+print(numpy.polyval(l, x))
+
+# Linear Algebra
+
+import numpy
+n=int(input())
+l=[]
+
+for _ in range(n):
+    l.append(list(map(float,input().split())))
+a=numpy.array(l)
+print(round(numpy.linalg.det(a),2))
+
+# PROBLEM 2
+
+#Birthday Cake Candles
+
+import math
+import os
+import random
+import re
+import sys
+
+def birthdayCakeCandles(candles):
+    m=max(candles)
+    l=[x for x in candles if x==m]
+    return len(l)
+        
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    candles_count = int(input().strip())
+
+    candles = list(map(int, input().rstrip().split()))
+
+    result = birthdayCakeCandles(candles)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+
+
+#Number Line Jumps Kangaroo
+
+
+import math
+import os
+import random
+import re
+import sys
+
+
+def kangaroo(x1, v1, x2, v2):
+    if x2==x1 and v2==v1:
+        return 'YES'
+    elif x2>=x1 and v2>=v1:
+        return 'NO'
+    elif x1>=x2 and v1>=v2:
+        return 'NO'
+    else:
+        if (x2-x1)%(v1-v2)==0:
+            return 'YES'
+        else:
+            return 'NO'
+        
+    
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    x1 = int(first_multiple_input[0])
+
+    v1 = int(first_multiple_input[1])
+
+    x2 = int(first_multiple_input[2])
+
+    v2 = int(first_multiple_input[3])
+
+    result = kangaroo(x1, v1, x2, v2)
+
+    fptr.write(result + '\n')
+
+    fptr.close()
+
+#Viral Advertising
+
+
+import math
+import os
+import random
+import re
+import sys
+
+def viralAdvertising(n):
+    s=5
+    likes=[]
+    for x in range(n):
+        likes.append(s//2)
+        s=3*likes[x]
+    return sum(likes)
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    result = viralAdvertising(n)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
+
+#Insertion Sort - Part 1
+
+import math
+import os
+import random
+import re
+import sys
+
+def insertionSort1(n, arr):
+    x=arr[-1]
+    indice=n-2
+
+    while (x < arr[indice]) and (indice >= 0):
+        arr[indice+1]=arr[indice]
+        print(*arr)
+        indice-=1
+
+    arr[indice+1]=x
+    print(*arr)
+
+if __name__ == '__main__':
+    n = int(input().strip())
+
+    arr = list(map(int, input().rstrip().split()))
+
+    insertionSort1(n, arr)
+
+#Insertion Sort - Part 2
+
+
+import math
+import os
+import random
+import re
+import sys
+
+
+def insertionSort2(n, arr):
+    # Write your code here
+    for i in range(1, len(arr)):
+        x = arr[i]
+        k = i-1
+        while arr[k]> x and k>=0:
+            arr[k+1] = arr[k]
+            k-=1
+        arr[k+1] = x   
+        print(*arr)
+if __name__ == '__main__':
+    n = int(input().strip())
+
+    arr = list(map(int, input().rstrip().split()))
+
+    insertionSort2(n, arr)
